@@ -5,6 +5,7 @@ from tqdm import tqdm
 import os, sys
 import re
 data_path = '' #os.path.dirname(os.path.abspath('__file__'))
+from collections import defaultdict
 
 def main(users=[], actions_compare_file='/testandvalidation.csv', threshold=3, limit=50, algorithm='MATRIX_FACTOR'):
     """
@@ -44,11 +45,15 @@ def item_similarity_map(actions_insert_file='/movielens_100k_u1_train.csv' ,acti
     actions = actions[actions['value'] >= threshold]
     print "Insertando Acciones"
     i=0
+    counter=defaultdict(int)
     for index, action in tqdm(actions.iterrows()):
-        response = SeldonRESTAccess.post_action(action['user_id'],action['item_id'], token)
+        counter[action['user_id']]+=1
+        if counter[action['user_id']]<=10:
+            #continue
+            response = SeldonRESTAccess.post_action(action['user_id'],action['item_id'], token)
         i+=1
-        if i==100:
-            break
+        #if i==100:
+        #    break
         if not response:
             print "action for user {} with item {} went wrong".format(action['user_id'],action['item_id'])
     return main(actions_compare_file=actions_compare_file, threshold=threshold, limit=limit, algorithm= 'SIMILAR_ITEMS')
