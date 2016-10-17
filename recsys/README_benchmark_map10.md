@@ -30,8 +30,12 @@ python SeldonTests.py --host=http://localhost:8080 --compareactionsfile=/home/en
 #### Results:
 | Seldon version | Parameters | MAP@10 
 | --- | -----------| ---- 
-| 1.3.5 | diversityLevel=1, limit=100, threshold=0.5, sample=0.25, actions=100, recent_actions=1 | 0.01 (11 empty users)
-| 1.3.5 | diversityLevel=1, limit=100, threshold=0, sample=1, actions=100, recent_actions=1 | 0.05 (89 empty users)
+| 1.3.5 | dataset=ua, diversityLevel=1, limit=100, threshold=0.5, sample=0.25, actions=100, recent_actions=1 | 0.01 (11 empty users)
+| 1.3.5 | dataset=ua, diversityLevel=1, limit=100, threshold=0, sample=1, actions=100, recent_actions=1 | 0.05 (89 empty users)
+| 1.3.5 | dataset=u1, diversityLevel=1, limit=100, threshold=0, sample=1, actions=100, recent_actions=1 | 0.054 (0 empty users)
+| 1.3.5 | dataset=u1, diversityLevel=1, limit=100, threshold=0, sample=1, actions=100 (reverse), recent_actions=1 | 0.098 (0 empty users)
+| 1.3.5 | dataset=u1, diversityLevel=1, limit=100, threshold=0, sample=1, actions=1000 (reverse), recent_actions=1 | x (0 empty users)
+| 1.3.5 | dataset=u1, diversityLevel=1, limit=100, threshold=0, sample=1, actions=5 (reverse), recent_actions=1 | x (0 empty users)
 
 #### Conclusions: 
 * (At the moment) we were not able to repeat our previous results with Seldon :( 
