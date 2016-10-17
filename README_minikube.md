@@ -1,4 +1,6 @@
-### Deploy Seldon locally on Minikube
+## Deploy and Test Seldon locally on Minikube
+
+### Deploy Seldon on localhost
 
 Successfully tested on Ubuntu 16.04 with >8GB RAM
 
@@ -50,6 +52,8 @@ seldon-up.sh
 ![seldon_up.sh output](static/seldon_up.png "seldon-up.sh output")
 
 Check that Seldon is OK. And [test it!](https://github.com/beeva-labs/research-lab-private/tree/master/recsys/seldon-kubernetes#import-new-dataset)
+
+### Test Item Similarity for Movielens 100K
 
 #### Import dataset
 ```
