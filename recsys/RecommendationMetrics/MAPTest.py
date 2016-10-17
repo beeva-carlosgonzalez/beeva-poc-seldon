@@ -51,7 +51,7 @@ def mean_average_precision(recommendations, users, threshold, actions, at):
     :return:
     """
     average_precisions = []
-    print "Average Precission progress"
+    print "Average Precision progress"
     for recommend in tqdm(recommendations):
         user_relevant_items = get_relevant_items(recommend.get('user'), threshold, actions)
         ap = average_precision(user_relevant_items, recommend.get('recommendation'),at)

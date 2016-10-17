@@ -43,12 +43,14 @@ def item_similarity_map(actions_insert_file='/movielens_100k_u1_train.csv' ,acti
     actions_path = data_path + '' + actions_insert_file
     actions = pd.read_csv(actions_path, sep='\t', names=['user_id', 'item_id', 'value', 'timestamp'])
     actions = actions[actions['value'] >= threshold]
+    # Reverse actions
+    actions = actions.reindex(index=actions.index[::-1])
     print "Insertando Acciones"
     i=0
     counter=defaultdict(int)
-    for index, action in tqdm(actions.iterrows()):
+    for index, action in tqdm(actions.iterrows(), total= actions.shape[0]):
         counter[action['user_id']]+=1
-        if counter[action['user_id']]<=10:
+        if counter[action['user_id']]<=1000:
             #continue
             response = SeldonRESTAccess.post_action(action['user_id'],action['item_id'], token)
         i+=1

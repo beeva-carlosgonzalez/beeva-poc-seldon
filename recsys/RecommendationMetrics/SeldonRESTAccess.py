@@ -63,10 +63,12 @@ def get_recommendation_id(users, algorithm, limit, token):
     recommendations = []
     empty_recom = []
     print "Users Recommendation requests"
+    mycount = 0
     for user in tqdm(users):
         recommendation_list = []
         recommendation = get_recommendation(algorithm, user, token, limit)
         recommendations_per_user = recommendation.get('list')
+        mycount+=len(recommendations_per_user)
         if len(recommendations_per_user) == 0:
             empty_recom.append(user)
         else:
@@ -75,4 +77,6 @@ def get_recommendation_id(users, algorithm, limit, token):
             recommendations.append({'recommendation': recommendation_list, 'user': user})
     print "List of users with empty recommendation"
     print empty_recom
+    print "Actual recommendations = %i/%i" %(mycount, limit*len(users))
+    
     return recommendations
