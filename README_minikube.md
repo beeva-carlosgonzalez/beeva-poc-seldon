@@ -59,7 +59,7 @@ Check that Seldon is OK. And [test it!](https://github.com/beeva-labs/research-l
 ```
 kubectl create -f ~/seldon-server/kubernetes/conf/examples/ml100k/ml100k-import.json
 ```
-*To import subset u1 you have to previously edit the file*
+*To import subset u1 you have to edit the file previously to launch seldon*
 
 #### Train model
 ```
