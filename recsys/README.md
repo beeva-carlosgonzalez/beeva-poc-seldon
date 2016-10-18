@@ -58,6 +58,8 @@ python SeldonTests.py --host=http://localhost:8080 --compareactionsfile=/home/en
 | 1.3.5 | diversityLevel=3, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=u1, actions=1, [commit](https://github.com/beeva-labs/beeva-poc-seldon/commit/4236661512a29f0ae719f9158014369cfdf7dd8c)| 0.083 | 0% missing, 391/4590=8.5% repeated
 | 1.3.5 | diversityLevel=3, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=u1, actions=10, [commit](https://github.com/beeva-labs/beeva-poc-seldon/commit/c841c0edf4310c4b909fe8cebc2888d92d8f1a2b)| 0.099 | 0% missing, 324/4590=7.1% repeated
 | 1.3.5 | diversityLevel=3, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=u1, actions=100 | 0.059 | 0% missing, 244/4590=5.3% repeated
+| 1.3.5 | diversityLevel=3, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=u1, actions=1 | 0.045 | 0% missing, 226/4590=4.9% repeated
+| 1.3.5 | diversityLevel=3, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=u1, actions=5 | 0.043 | 0% missing, 217/4590=4.7% repeated
 
 #### Conclusions: 
 * (At the moment) we were not able to repeat our previous results with Seldon :( 
