@@ -25,6 +25,8 @@ def main(users=[], actions_compare_file='/testandvalidation.csv', threshold=3, l
     if len(users) == 0:
         users = set(actions.user_id.values.tolist())
     recomm_set = SeldonRESTAccess.get_recommendation_id(users, algorithm, limit, token)
+    num_repeated = len(compute_repeated_elements(recomm_set))
+    print "Repeated elements: %i" %num_repeated
     MAP = mean_average_precision(recomm_set, users, threshold, actions, limit)
     return MAP
 
@@ -43,14 +45,15 @@ def item_similarity_map(actions_insert_file='/movielens_100k_u1_train.csv' ,acti
     actions_path = data_path + '' + actions_insert_file
     actions = pd.read_csv(actions_path, sep='\t', names=['user_id', 'item_id', 'value', 'timestamp'])
     actions = actions[actions['value'] >= threshold]
+    # actions = actions.sample(n=10)
     # Reverse actions
-    actions = actions.reindex(index=actions.index[::-1])
+    #actions = actions.reindex(index=actions.index[::-1])
     print "Insertando Acciones"
     i=0
     counter=defaultdict(int)
     for index, action in tqdm(actions.iterrows(), total= actions.shape[0]):
         counter[action['user_id']]+=1
-        if counter[action['user_id']]<=1000:
+        if counter[action['user_id']]<=1:
             #continue
             response = SeldonRESTAccess.post_action(action['user_id'],action['item_id'], token)
         i+=1
@@ -61,15 +64,21 @@ def item_similarity_map(actions_insert_file='/movielens_100k_u1_train.csv' ,acti
     return main(actions_compare_file=actions_compare_file, threshold=threshold, limit=limit, algorithm= 'SIMILAR_ITEMS')
 
 def compute_repeated_elements(recomm_set):
-    actions_path = data_path + '/movielens_100k_u1_train.csv'
-    actions = pd.read_csv(actions_path)
+    global insert_file
+    actions_path = data_path + insert_file
+    actions = pd.read_csv(actions_path, sep='\t', names=['user_id', 'item_id', 'value', 'timestamp'])
     repeated_list = []
     for recom in recomm_set:
-        sum = 0
-        for element in recom.get('recommendation'):
-            if element in actions[recom.get('user')]:
-                sum +=1
-        repeated_list.append(sum)
+        repeated_items = actions.query("user_id == %i & item_id in %s" %(recom.get('user'), recom.get('recommendation')))['item_id']
+        if len(repeated_items)>0:
+            repeated_list.append(repeated_items.values)
+
+        #sum = 0
+        #for element in recom.get('recommendation'):
+        #    if element in actions[recom.get('user')]:
+        #        sum +=1
+        #repeated_list.append(sum)
+
     return repeated_list
 
 if __name__ == '__main__':
