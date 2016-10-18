@@ -53,7 +53,7 @@ def item_similarity_map(actions_insert_file='/movielens_100k_u1_train.csv' ,acti
     counter=defaultdict(int)
     for index, action in tqdm(actions.iterrows(), total= actions.shape[0]):
         counter[action['user_id']]+=1
-        if counter[action['user_id']]<=1:
+        if counter[action['user_id']]<=10:
             #continue
             response = SeldonRESTAccess.post_action(action['user_id'],action['item_id'], token)
         i+=1
