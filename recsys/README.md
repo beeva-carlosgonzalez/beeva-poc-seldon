@@ -49,13 +49,13 @@ python SeldonTests.py --host=http://localhost:8080 --compareactionsfile=/home/en
 | Seldon version | Seldon Parameters | Test Parameters | MAP@10 | Missing results 
 | --- | -----------| ---- | --- | ---
 | 1.3.5 | diversityLevel=1, limit=100, threshold=0.5, sample=0.25, recent_actions=1 | dataset=ua, actions=100 | 0.01 | 11 empty users
-| 1.3.5 | dataset=ua, diversityLevel=1, limit=100, threshold=0, sample=1, actions=100, recent_actions=1 | | 0.05 | (89 empty users)
-| 1.3.5 | dataset=u1, diversityLevel=1, limit=100, threshold=0, sample=1, actions=100, recent_actions=1 | | 0.054 | (0 empty users)
-| 1.3.5 | dataset=u1, diversityLevel=1, limit=100, threshold=0, sample=1, actions=100 (reverse), recent_actions=1 | | 0.098 | (0 empty users)
-| 1.3.5 | dataset=u1, diversityLevel=1, limit=100, threshold=0, sample=1, actions=1000 (reverse), recent_actions=1 | | 0.094 | (0 empty users)
-| 1.3.5 | dataset=u1, diversityLevel=1, limit=100, threshold=0, sample=1, actions=10, recent_actions=1 | | 0.094 | (0 empty recommendations)
-| 1.3.5 | dataset=u1, diversityLevel=1, limit=100, threshold=0, sample=1, actions=1, recent_actions=1 | | 0.083 | (0 empty recommendations, 406/4590 repeated)
-| 1.3.5 | diversityLevel=3, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=u1, actions=1, [commit](https://github.com/beeva-labs/beeva-poc-seldon/commit/4236661512a29f0ae719f9158014369cfdf7dd8c)| 0.083 | 0% missing, 9% repeated
+| 1.3.5 | diversityLevel=1, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=ua, actions=100 | 0.05 | 89 empty users
+| 1.3.5 | diversityLevel=1, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=u1, actions=100 | 0.054 | 0% missing users
+| 1.3.5 | diversityLevel=1, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=u1, actions=100 (reverse) | 0.098 | 0% missing users
+| 1.3.5 | diversityLevel=1, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=u1, actions=1000 (reverse) | 0.094 | 0% missing users
+| 1.3.5 | diversityLevel=1, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=u1, actions=10 | 0.094 | 0% missing
+| 1.3.5 | diversityLevel=1, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=u1, actions=1 | 0.083 | 0% missing,  406/4590=8.9% repeated
+| 1.3.5 | diversityLevel=3, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=u1, actions=1, [commit](https://github.com/beeva-labs/beeva-poc-seldon/commit/4236661512a29f0ae719f9158014369cfdf7dd8c)| 0.083 | 0% missing, 391/4590=8.5% repeated
 
 #### Conclusions: 
 * (At the moment) we were not able to repeat our previous results with Seldon :( 
