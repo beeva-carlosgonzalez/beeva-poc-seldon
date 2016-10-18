@@ -53,42 +53,6 @@ seldon-up.sh
 
 Check that Seldon is OK. And [test it!](https://github.com/beeva-labs/research-lab-private/tree/master/recsys/seldon-kubernetes#import-new-dataset)
 
-### Test Item Similarity for Movielens 100K
-
-#### Import dataset
-```
-kubectl create -f ~/seldon-server/kubernetes/conf/examples/ml100k/ml100k-import.json
-```
-*To import subset u1 you have to previously edit the file*
-
-#### Train model
-```
-# Access to seldon-control shell
-kubectl exec -it seldon-control /bin/bash
-
-# Build model item-similarity
-luigi --module seldon.luigi.spark SeldonItemSimilarity --local-schedule --client ml100k --startDay 1 --ItemSimilaritySparkJob-sample 1.0 --ItemSimilaritySparkJob-dimsumThreshold 1.0 --ItemSimilaritySparkJob-limit 100
-```
-
-#### Configure runtime
-See [configure_runtime_scorer_isim](https://github.com/SeldonIO/seldon-server/blob/master/docker/examples/ml10m/create_ml10m_recommender.sh)
-
-#### Generate keys
-```
-SELDONSERVERPOD=`kubectl get pods | grep seldon-server | cut -d' ' -f1`
-sudo kubectl port-forward $SELDONSERVERPOD 8080
-SELDONKEY=`seldon-cli keys --action list --client-name ml100k --scope all | cut -d' ' -f10 | tail -n1 | sed 's/[^A-Z0-9]//g'`
-SELDONSECRET=`seldon-cli keys --action list --client-name ml100k --scope all | cut -d' ' -f4 | tail -n1 | sed 's/[^A-Z0-9]//g'`
-# Open localhost:8080
-curl http://localhost:8080/token?consumer_key=$SELDONKEY&consumer_secret=$SELDONSECRET
-curl http://localhost:8080/users/625/recommendations?oauth_token=XXXX&algorithms=recommenders:MATRIX_FACTOR
-```
-
-#### Eval model
-Use [RecommendationMetrics scripts](https://github.com/beeva-labs/beeva-poc-seldon/tree/master/recsys/RecommendationMetrics)
-```
-python SeldonTests.py --host=http://localhost:8080 --compareactionsfile=/home/enriqueotero/datasets/movielens/ml-100k/u1.test --consumerkey=$SELDONKEY --consumersecret=$SELDONSECRET --algorithm=itemsimilarity --insertactionsfile=/home/enriqueotero/datasets/movielens/ml-100k/u1.base
-```
 
 
 #### End:
