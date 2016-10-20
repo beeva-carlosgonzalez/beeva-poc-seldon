@@ -65,3 +65,20 @@ python SeldonTests.py --host=http://localhost:8080 --compareactionsfile=/home/en
 * (At the moment) we were not able to repeat our previous results with Seldon :( 
 * MAP@10 we get for item-similarity and ml100k is low < 0.1 :(
 * To be continued... :)
+
+#### Future work:
+* Analyze `diversityLevel`: 
+```
+numRecommendationsDiverse = new Long(Math.round(numRecommendationsAsked * diversityLevel)).intValue
+```
+
+* Analyze `recentActions`: 
+```
+ recentActions = actionProvider.getRecentActions(client,user, 100);
+ ...
+ itemsToScore = recentItemInteractions.subList(0, numRecentActionsToUse);
+ ...
+ logger.info("Found "+res.size()+" similar items based on history of "+items.size());
+ ```
+
+* Analyze inclusions and exclusions: See [RecommendationContext.java](https://github.com/SeldonIO/seldon-server/blob/master/server/src/io/seldon/clustering/recommender/RecommendationContext.java)
