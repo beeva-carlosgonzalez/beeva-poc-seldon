@@ -62,11 +62,15 @@ python SeldonTests.py --host=http://localhost:8080 --compareactionsfile=/home/en
 | 1.3.5 | diversityLevel=3, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=u1, actions=5 | 0.043 | 0% missing, 217/4590=4.7% repeated
 
 #### Conclusions: 
-* Our previous MAP@10 results with Seldon were *not repeatable* :( 
-* MAP@10 we get for item-similarity and ml100k is low < 0.1 :(
-* To try to generate repeatable tests we have to **attach commit version** of our code. And all the parameters and versions.
-* MAP@K only measures Precision@K with order, not recall. So we have to ensure we generate K valid recommendations.
-* Measuring (intra-user) diversity and (inter-users) novelty are also desirable.
+* **Repeatable experiments**:
+ * Our previous MAP@10 results with Seldon were *not repeatable* :( 
+ * To try to generate repeatable tests we have to **attach commit version** of our code. And all the parameters and versions.
+* **Item-similarity vs Matrix-factorization** in Spark and Seldon
+ * MAP@10 we get for item-similarity and ml100k is lower than matrix-factorization (ALS)
+* **Tests and metrics:**
+ * Our Seldon tests should include for MAP@10 also users with empty recommendations.
+ * MAP@10 indirectly penalizes empty recommendations. But controlling the number of valid recommendations, and items already viewed in training, is also desirable.
+ * Measuring (intra-user) diversity and (inter-users) novelty are also desirable.
 
 #### Future work:
 * Analyze `diversityLevel`: 
