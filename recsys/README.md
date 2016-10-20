@@ -62,9 +62,11 @@ python SeldonTests.py --host=http://localhost:8080 --compareactionsfile=/home/en
 | 1.3.5 | diversityLevel=3, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=u1, actions=5 | 0.043 | 0% missing, 217/4590=4.7% repeated
 
 #### Conclusions: 
-* (At the moment) we were not able to repeat our previous results with Seldon :( 
+* Our previous MAP@10 results with Seldon were *not repeatable* :( 
 * MAP@10 we get for item-similarity and ml100k is low < 0.1 :(
-* To be continued... :)
+* To try to generate repeatable tests we have to **attach commit version** of our code. And all the parameters and versions.
+* MAP@K only measures Precision@K with order, not recall. So we have to ensure we generate K valid recommendations.
+* Measuring (intra-user) diversity and (inter-users) novelty are also desirable.
 
 #### Future work:
 * Analyze `diversityLevel`: 
