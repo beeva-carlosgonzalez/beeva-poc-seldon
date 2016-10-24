@@ -56,8 +56,35 @@ python SeldonTests.py --host=http://localhost:8080 --compareactionsfile=/home/en
 | 1.3.5 | diversityLevel=1, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=u1, actions=10 | 0.094 | 0% missing
 | 1.3.5 | diversityLevel=1, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=u1, actions=1 | 0.083 | 0% missing,  406/4590=8.9% repeated
 | 1.3.5 | diversityLevel=3, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=u1, actions=1, [commit](https://github.com/beeva-labs/beeva-poc-seldon/commit/4236661512a29f0ae719f9158014369cfdf7dd8c)| 0.083 | 0% missing, 391/4590=8.5% repeated
+| 1.3.5 | diversityLevel=3, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=u1, actions=10, [commit](https://github.com/beeva-labs/beeva-poc-seldon/commit/c841c0edf4310c4b909fe8cebc2888d92d8f1a2b)| 0.099 | 0% missing, 324/4590=7.1% repeated
+| 1.3.5 | diversityLevel=3, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=u1, actions=100 | 0.059 | 0% missing, 244/4590=5.3% repeated
+| 1.3.5 | diversityLevel=3, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=u1, actions=1 | 0.045 | 0% missing, 226/4590=4.9% repeated
+| 1.3.5 | diversityLevel=3, limit=100, threshold=0, sample=1, recent_actions=1 | dataset=u1, actions=5 | 0.043 | 0% missing, 217/4590=4.7% repeated
 
 #### Conclusions: 
-* (At the moment) we were not able to repeat our previous results with Seldon :( 
-* MAP@10 we get for item-similarity and ml100k is very low < 0.01 :(
-* To be continued... :)
+* **Repeatable experiments**:
+ * Our previous MAP@10 results with Seldon were *not repeatable* :( 
+ * To try to generate repeatable tests we have to **attach commit version** of our code. And all the parameters and versions.
+* **Item-similarity vs Matrix-factorization** in Spark and Seldon
+ * MAP@10 we get for item-similarity and ml100k is lower than matrix-factorization (ALS)
+* **Tests and metrics:**
+ * Our Seldon tests should include for MAP@10 also users with empty recommendations.
+ * MAP@10 indirectly penalizes empty recommendations. But controlling the number of valid recommendations, and items already viewed in training, is also desirable.
+ * Measuring (intra-user) diversity and (inter-users) novelty are also desirable.
+
+#### Future work:
+* Analyze `diversityLevel`: 
+```
+numRecommendationsDiverse = new Long(Math.round(numRecommendationsAsked * diversityLevel)).intValue
+```
+
+* Analyze `recentActions`: 
+```
+ recentActions = actionProvider.getRecentActions(client,user, 100);
+ ...
+ itemsToScore = recentItemInteractions.subList(0, numRecentActionsToUse);
+ ...
+ logger.info("Found "+res.size()+" similar items based on history of "+items.size());
+ ```
+
+* Analyze inclusions and exclusions: See [RecommendationContext.java](https://github.com/SeldonIO/seldon-server/blob/master/server/src/io/seldon/clustering/recommender/RecommendationContext.java)
