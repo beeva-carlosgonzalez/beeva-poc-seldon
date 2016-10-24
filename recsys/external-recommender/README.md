@@ -1,7 +1,10 @@
 ## Deploy external recommender
 
-### Create client
 
+### Launch Seldon
+`./seldon-up.sh`
+
+### Create client
 `kubectl create -f ../conf/examples/ml100k/ml100k-import.json`
 
 ### Build model
@@ -17,7 +20,4 @@
 `sudo make push_to_dockerhub`
 
 ### Generate the deployment descriptor
-`./run_recommendation_microservice.sh dsstne-example beevaenriqueotero/seldon-dsstne 0.1 ml100k`
-
-### Launch Seldon
-`./seldon-up.sh`
+`./run_recommendation_microservice.sh dsstne-example beevaenriqueotero/seldon-dsstne 0.2 ml100k`
